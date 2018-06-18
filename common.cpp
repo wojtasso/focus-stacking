@@ -1,6 +1,7 @@
 #include "common.hpp"
 
 using cv::Mat;
+using std::vector;
 
 Mat BGR2Gray(Mat input)
 {
@@ -84,4 +85,21 @@ void divideMat(const Mat& input1, const Mat& input2, Mat& output)
 }
 
 template void divideMat<float>(const Mat& input1, const Mat& input2, Mat& output);
+
+template<typename imgType>
+void sumMatElementsInVec(vector<Mat>& images, Mat& outputImg)
+{
+    if (images[0].size() != outputImg.size())
+        throw std::invalid_argument("Images have different sizes!");
+
+    for (int y = 0; y < outputImg.rows; y++) {
+        for (int x = 0; x < outputImg.cols; x++) {
+            for (unsigned int i = 0; i < images.size(); i++) {
+                outputImg.at<imgType>(y, x) += images[i].at<imgType>(y, x);
+            }
+        }
+    }
+}
+
+template void sumMatElementsInVec<float>(vector<Mat>& images, Mat& outputImg);
 

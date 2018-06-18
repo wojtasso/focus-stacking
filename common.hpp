@@ -17,4 +17,7 @@ void absolute(cv::Mat& inOut);
 template<typename imgType>
 void divideMat(const cv::Mat& input1, const cv::Mat& input2, cv::Mat& output);
 
+template<typename imgType>
+void sumMatElementsInVec(std::vector<cv::Mat>& images, cv::Mat& outputImg);
+
 #endif
