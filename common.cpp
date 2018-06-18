@@ -41,8 +41,20 @@ void convolution(const Mat& input, const Mat& kernel, Mat& output)
     }
 }
 
-
-
 template void convolution<uchar, uchar>(const Mat& input, const Mat& kernel, Mat& output);
 template void convolution<uchar, float>(const Mat& input, const Mat& kernel, Mat& output);
+
+void gaussianBlur(const Mat& input, Mat& output)
+{
+    float gausKernel[9] = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
+    Mat gaussianKernel = Mat(3, 3, CV_32F, gausKernel) / 16.0f;
+    convolution<uchar, uchar>(input, gaussianKernel, output);
+}
+
+void calcLaplacian(const Mat& input, Mat& output)
+{
+    float lapKernel[9] = { 1, 1, 1, 1, -8, 1, 1, 1, 1 };
+    Mat laplacianKernel = Mat(3, 3, CV_32F, lapKernel);
+    convolution<uchar, float>(input, laplacianKernel, output);
+}
 

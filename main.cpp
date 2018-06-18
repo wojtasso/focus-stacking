@@ -27,5 +27,17 @@ int main(int argc, char *argv[])
     for (unsigned int i = 0; i < numberOfImages; i++)
         gray.push_back(BGR2Gray(colors[i]));
 
+    for (unsigned int i = 0; i < numberOfImages; i++) {
+        Mat tmp(sizeY, sizeX, gray[0].type());
+        gaussianBlur(gray[i], tmp);
+        gaussian.push_back(tmp);
+    }
+
+    for (unsigned int i = 0; i < numberOfImages; i++) {
+        Mat tmp(sizeY, sizeX, CV_32F);
+        calcLaplacian(gaussian[i], tmp);
+        laplacian.push_back(tmp);
+    }
+
     return 0;
 }
