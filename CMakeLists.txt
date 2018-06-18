@@ -8,7 +8,7 @@ add_definitions ("-Wall")
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-add_executable (ant main.cpp)
+add_executable (ant main.cpp common.cpp)
 
 target_link_libraries(ant ${OpenCV_LIBS})
 

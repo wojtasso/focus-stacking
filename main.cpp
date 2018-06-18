@@ -1,6 +1,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include "common.hpp"
 
 using std::vector;
 using cv::Mat;
@@ -23,6 +24,8 @@ int main(int argc, char *argv[])
     int sizeX = colors[0].cols;
     int sizeY = colors[0].rows;
 
+    for (unsigned int i = 0; i < numberOfImages; i++)
+        gray.push_back(BGR2Gray(colors[i]));
 
     return 0;
 }
