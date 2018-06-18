@@ -58,3 +58,14 @@ void calcLaplacian(const Mat& input, Mat& output)
     convolution<uchar, float>(input, laplacianKernel, output);
 }
 
+template<typename inOutType>
+void absolute(Mat& inOut)
+{
+    for (int y = 0; y < inOut.rows; y++) {
+        for (int x = 0; x < inOut.cols; x++)
+                inOut.at<inOutType>(y, x) = abs(inOut.at<inOutType>(y, x));
+    }
+}
+
+template void absolute<float>(Mat& inOut);
+
