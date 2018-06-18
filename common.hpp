@@ -14,4 +14,7 @@ void calcLaplacian(const cv::Mat& input, cv::Mat& output);
 template<typename inOutType>
 void absolute(cv::Mat& inOut);
 
+template<typename imgType>
+void divideMat(const cv::Mat& input1, const cv::Mat& input2, cv::Mat& output);
+
 #endif

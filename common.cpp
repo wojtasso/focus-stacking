@@ -69,3 +69,19 @@ void absolute(Mat& inOut)
 
 template void absolute<float>(Mat& inOut);
 
+template<typename imgType>
+void divideMat(const Mat& input1, const Mat& input2, Mat& output)
+{
+    if (!(input1.size() == input2.size() && input2.size() == output.size()))
+        throw std::invalid_argument("Images have different sizes!");
+
+    for (int y = 0; y < input1.rows; y++) {
+        for (int x = 0; x < input1.cols; x++) {
+            output.at<imgType>(y, x) =
+                input1.at<imgType>(y, x) / input2.at<imgType>(y, x);
+        }
+    }
+}
+
+template void divideMat<float>(const Mat& input1, const Mat& input2, Mat& output);
+
