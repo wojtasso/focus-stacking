@@ -6,7 +6,6 @@
 using std::vector;
 using cv::Mat;
 
-
 int main(int argc, char *argv[])
 {
     vector<cv::String> imageList;
@@ -49,6 +48,7 @@ int main(int argc, char *argv[])
         divideMat<float>(laplacian[i], sumMat, laplacian[i]);
 
     Mat focused(sizeY, sizeX, colors[0].type());
+    Mat depth(sizeY, sizeX, gray[0].type());
 
     //For every pixel in the final image, find the index of image, from
     //the series of photos, with the highest laplacian value. Assign pixel from
@@ -65,13 +65,22 @@ int main(int argc, char *argv[])
                 }
             }
             focused.at<cv::Vec3b>(y, x) = colors[index].at<cv::Vec3b>(y, x);
+            //Create depth map based on the found indexes. Higher index further
+            //farthest distance. Use min-max normalization to apply index values
+            //to the new range (255 - 0)
+            depth.at<uchar>(y, x) = ((index - ((int)numberOfImages - 1)) * 255)
+                                    /(0 - ((int)numberOfImages - 1));
+
         }
     }
 
     cv::imshow("result", focused);
     cv::waitKey(0);
+    cv::imshow("result", depth);
+    cv::waitKey(0);
 
     cv::imwrite("focused.png", focused);
+    cv::imwrite("depth.png", depth);
 
     return 0;
 }
