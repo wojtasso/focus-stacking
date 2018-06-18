@@ -23,7 +23,7 @@ To launch the program execute:
 ./focus
 ```
 
-The application takes photos from folder .`images`.
+The application takes photos from folder `images`.
 In this example, photos are taken from [here](http://grail.cs.washington.edu/projects/photomontage/data/bug.zip)
 
 ### Results
