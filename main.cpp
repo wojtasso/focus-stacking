@@ -6,6 +6,7 @@
 using std::vector;
 using cv::Mat;
 
+
 int main(int argc, char *argv[])
 {
     vector<cv::String> imageList;
@@ -38,6 +39,39 @@ int main(int argc, char *argv[])
         calcLaplacian(gaussian[i], tmp);
         laplacian.push_back(tmp);
     }
+
+    for (unsigned int z = 0; z < numberOfImages; z++)
+        absolute<float>(laplacian[z]);
+
+    Mat sumMat(sizeY, sizeX, CV_32F);
+    sumMatElementsInVec<float>(laplacian, sumMat);
+    for (unsigned int i = 0; i < numberOfImages; i++)
+        divideMat<float>(laplacian[i], sumMat, laplacian[i]);
+
+    Mat focused(sizeY, sizeX, colors[0].type());
+
+    //For every pixel in the final image, find the index of image, from
+    //the series of photos, with the highest laplacian value. Assign pixel from
+    //this image to the final image.
+    for (int y = 0; y < sizeY; y++) {
+        for (int x = 0; x < sizeX; x++) {
+            float val = -FLT_MAX;
+            int index = 0;
+
+            for (unsigned int i = 0; i < numberOfImages; i++) {
+                if (laplacian[i].at<float>(y, x) > val) {
+                    index = i;
+                    val = laplacian[i].at<float>(y, x);
+                }
+            }
+            focused.at<cv::Vec3b>(y, x) = colors[index].at<cv::Vec3b>(y, x);
+        }
+    }
+
+    cv::imshow("result", focused);
+    cv::waitKey(0);
+
+    cv::imwrite("focused.png", focused);
 
     return 0;
 }
